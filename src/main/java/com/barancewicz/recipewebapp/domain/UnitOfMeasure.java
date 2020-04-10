@@ -2,12 +2,14 @@ package com.barancewicz.recipewebapp.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Data
 @Entity
-public class UnitOfMeasure extends BaseEntity{
+public class UnitOfMeasure{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String description;
     @OneToOne
     private Ingredient ingredient;

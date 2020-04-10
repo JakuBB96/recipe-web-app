@@ -2,8 +2,8 @@ package com.barancewicz.recipewebapp.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 @Data
 @Getter
@@ -11,11 +11,13 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @EqualsAndHashCode(exclude = {"recipes"})
-public class Category extends BaseEntity {
-
+public class Category{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    private Set<Recipe> recipes;
+    private Set<Recipe> recipes = new HashSet<>();
 
 }
