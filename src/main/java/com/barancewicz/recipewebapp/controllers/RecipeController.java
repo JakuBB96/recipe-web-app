@@ -54,19 +54,7 @@ public class RecipeController {
         return "redirect:/recipe/" + savedCommand.getId() +"/show";
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView handleBadInput(Exception exception){
-        log.error("Handling Number Format exception");
-        log.error(exception.getMessage());
 
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.addObject("exception", exception);
-        modelAndView.setViewName("400error");
-
-        return modelAndView;
-    }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
