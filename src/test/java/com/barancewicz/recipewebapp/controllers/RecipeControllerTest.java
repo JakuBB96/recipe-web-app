@@ -2,6 +2,7 @@ package com.barancewicz.recipewebapp.controllers;
 
 import com.barancewicz.recipewebapp.commands.RecipeCommand;
 import com.barancewicz.recipewebapp.domain.Recipe;
+import com.barancewicz.recipewebapp.exceptions.NotFoundException;
 import com.barancewicz.recipewebapp.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,6 +39,7 @@ public class RecipeControllerTest {
         mockMvc = mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
+
     @Test
     public void testGetRecipe() throws Exception {
         Recipe r1 = new Recipe();
@@ -45,6 +49,24 @@ public class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("recipe"))
                 .andExpect(view().name("recipe/show"));
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception{
+
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
+    }
+
+    @Test
+    public void testGetRecipeNumberFormatE() throws Exception{
+
+//        when(recipeService.findById(any())).thenThrow(NumberFormatException.class);
+        mockMvc.perform(get("/recipe/asdf/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
     }
 
     @Test

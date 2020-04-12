@@ -3,6 +3,7 @@ package com.barancewicz.recipewebapp.services;
 import com.barancewicz.recipewebapp.converters.RecipeCommandToRecipe;
 import com.barancewicz.recipewebapp.converters.RecipeToRecipeCommand;
 import com.barancewicz.recipewebapp.domain.Recipe;
+import com.barancewicz.recipewebapp.exceptions.NotFoundException;
 import com.barancewicz.recipewebapp.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,6 +55,15 @@ public class RecipeServiceImplTest {
         verify(recipeRepository, never()).findAll();
 
 
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getRecipeByIdNotFound() throws Exception{
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipe = recipeService.findById(1L);
     }
 
     @Test
