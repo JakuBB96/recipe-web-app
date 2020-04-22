@@ -54,6 +54,8 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
+                    <a class="btn btn-default" href="#"
+                       th:href="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredients'}" role="button">Back</a>
                 </div>
             </form>
         </div>
