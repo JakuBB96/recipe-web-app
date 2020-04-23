@@ -3,20 +3,16 @@ package com.barancewicz.recipewebapp.controllers;
 import com.barancewicz.recipewebapp.commands.RecipeCommand;
 import com.barancewicz.recipewebapp.domain.Recipe;
 import com.barancewicz.recipewebapp.exceptions.NotFoundException;
+import com.barancewicz.recipewebapp.services.CategoryService;
 import com.barancewicz.recipewebapp.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Optional;
-
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -28,14 +24,15 @@ public class RecipeControllerTest {
 
     @Mock
     RecipeService recipeService;
-
+    @Mock
+    CategoryService categoryService;
     RecipeController controller;
 
     MockMvc mockMvc;
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        controller = new RecipeController(recipeService);
+        controller = new RecipeController(recipeService, categoryService);
         mockMvc = mockMvc = MockMvcBuilders.standaloneSetup(controller)
                     .setControllerAdvice(new ControllerExceptionHandler()).build();
     }
