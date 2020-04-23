@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="col-md-4" th:fragment="recipediv">
+    <div class="recipe-listing">
+        <div class="row">
+            <a href="#" th:href="@{'/recipe/'+${recipe.id}+'/show'}">
+                <div class="col-lg-12">
+                    <div class="recipe-box-image-container">
+                        <img role="presentation"
+                             src="/images/default.jpg"
+                             class="recipe-box-image"/>
+                    </div>
+                    <div class="course-listing-title" th:text="${recipe.description}">
+                        Recipe description
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
