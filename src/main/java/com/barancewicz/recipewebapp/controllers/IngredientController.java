@@ -9,11 +9,15 @@ import com.barancewicz.recipewebapp.services.UnitOfMeasureService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
 public class IngredientController {
+    private static final String INGREDIENT_INGREDIENTFORM_URL = "recipe/ingredient/ingredientform";
     private final IngredientService ingredientService;
     private final RecipeService recipeService;
     private final UnitOfMeasureService unitOfMeasureService;
@@ -78,7 +82,13 @@ public class IngredientController {
     }
 
     @PostMapping("recipe/{recipeId}/ingredient")
-    public String saveOrUpdate (@ModelAttribute IngredientCommand command){
+    public String saveOrUpdate (@Valid @ModelAttribute("ingredient") IngredientCommand command, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            return INGREDIENT_INGREDIENTFORM_URL;
+        }
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
 
         log.debug("saved recipe id: " + savedCommand.getRecipeId());

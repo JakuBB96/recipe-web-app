@@ -2,6 +2,7 @@ package com.barancewicz.recipewebapp.controllers;
 
 import com.barancewicz.recipewebapp.commands.RecipeCommand;
 import com.barancewicz.recipewebapp.exceptions.NotFoundException;
+import com.barancewicz.recipewebapp.services.CategoryService;
 import com.barancewicz.recipewebapp.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,11 @@ public class RecipeController {
 
     public static final String RECIPE_RECIPEFORM_URL = "recipe/recipeform";
     private final RecipeService recipeService;
+    private final CategoryService categoryService;
 
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService, CategoryService categoryService) {
         this.recipeService = recipeService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/recipes")
@@ -47,11 +50,13 @@ public class RecipeController {
     @GetMapping("recipe/new")
     public String newRecipe(Model model){
         model.addAttribute("recipe", new RecipeCommand());
+        model.addAttribute("allCategories" , categoryService.getCategories());
         return RECIPE_RECIPEFORM_URL;
     }
     @GetMapping("recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model){
         model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(id)));
+        model.addAttribute("allCategories" , categoryService.getCategories());
         return RECIPE_RECIPEFORM_URL;
     }
     //1. post mapping, refers to html document: th:action="@{/recipe/}"
