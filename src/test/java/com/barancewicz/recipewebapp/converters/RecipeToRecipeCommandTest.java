@@ -1,18 +1,19 @@
 package com.barancewicz.recipewebapp.converters;
 
 import com.barancewicz.recipewebapp.commands.RecipeCommand;
-import com.barancewicz.recipewebapp.commands.UnitOfMeasureCommand;
 import com.barancewicz.recipewebapp.domain.*;
 
+import com.barancewicz.recipewebapp.services.RoleService;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.persistence.criteria.CriteriaBuilder;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
 
 public class RecipeToRecipeCommandTest {
-
+    @Mock
+    public RoleService roleService;
     RecipeToRecipeCommand converter;
     public static final Long RECIPE_ID = 1L;
     public static final Integer COOK_TIME = Integer.valueOf("10");
@@ -32,10 +33,11 @@ public class RecipeToRecipeCommandTest {
 
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
        converter = new RecipeToRecipeCommand(
                new IngredientToIngredientCommand( new UnitOfMeasureToUnitOfMeasureCommand()),
                new CategoryToCategoryCommand(),
-               new NotesToNotesCommand());
+               new NotesToNotesCommand(), new UserToUserCommand(roleService));
     }
 
     @Test

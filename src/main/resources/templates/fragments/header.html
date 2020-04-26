@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head lang="en">
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 <body>
@@ -11,8 +11,29 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
                     <ul class="nav navbar-nav">
-                        <li><a href="#" th:href="@{/recipe/new}">Create new Recipe</a></li>
-                        <li><a href="#" th:href="@{/recipes}">List Recipes</a></li>
+                        <li sec:authorize="isAuthenticated()">
+                            <a href="#" th:href="@{/recipe/new}">Create new Recipe</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()">
+                            <a href="#" th:href="@{'/recipes/user/' + ${#authentication.principal.username}}">Your Recipes</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()">
+                            <a href="/logout"><span class="glyphicon glyphicon-log-in"></span>
+                                Logout</a>
+                        </li>
+
+                        <li sec:authorize="!isAuthenticated()">
+                            <a href="#" th:href="@{/recipes/find}">Find Recipe</a>
+                        </li>
+                        <li sec:authorize="!isAuthenticated()">
+                            <a href="/login"><span class="glyphicon glyphicon-user"></span>
+                            Login</a>
+                        </li>
+                        <li sec:authorize="!isAuthenticated()">
+                            <a href="/register"><span class="glyphicon glyphicon-pencil"></span>
+                                Register</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>

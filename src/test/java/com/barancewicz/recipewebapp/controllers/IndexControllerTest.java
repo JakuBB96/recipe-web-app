@@ -2,6 +2,7 @@ package com.barancewicz.recipewebapp.controllers;
 
 import com.barancewicz.recipewebapp.domain.Recipe;
 import com.barancewicz.recipewebapp.services.RecipeService;
+import com.barancewicz.recipewebapp.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -25,7 +26,8 @@ public class IndexControllerTest {
 
     @Mock
     RecipeService recipeService;
-
+    @Mock
+    UserService userService;
     @Mock
     Model model;
 
@@ -34,7 +36,7 @@ public class IndexControllerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        controller = new IndexController(recipeService);
+        controller = new IndexController(recipeService, userService);
     }
 
     @Test

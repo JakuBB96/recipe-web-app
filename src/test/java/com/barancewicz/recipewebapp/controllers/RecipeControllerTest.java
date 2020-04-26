@@ -1,10 +1,13 @@
 package com.barancewicz.recipewebapp.controllers;
 
 import com.barancewicz.recipewebapp.commands.RecipeCommand;
+import com.barancewicz.recipewebapp.converters.UserToUserCommand;
 import com.barancewicz.recipewebapp.domain.Recipe;
+import com.barancewicz.recipewebapp.domain.User;
 import com.barancewicz.recipewebapp.exceptions.NotFoundException;
 import com.barancewicz.recipewebapp.services.CategoryService;
 import com.barancewicz.recipewebapp.services.RecipeService;
+import com.barancewicz.recipewebapp.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -12,7 +15,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
 
+import java.util.*;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -26,17 +34,59 @@ public class RecipeControllerTest {
     RecipeService recipeService;
     @Mock
     CategoryService categoryService;
+    @Mock
+    UserService userService;
+    @Mock
+    UserToUserCommand userToUserCommand;
     RecipeController controller;
+    @Mock
+    Model model;
 
     MockMvc mockMvc;
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        controller = new RecipeController(recipeService, categoryService);
+        controller = new RecipeController(recipeService, categoryService, userService, userToUserCommand);
         mockMvc = mockMvc = MockMvcBuilders.standaloneSetup(controller)
                     .setControllerAdvice(new ControllerExceptionHandler()).build();
     }
 
+    @Test
+    public void processFindForm() throws Exception {
+        List<RecipeCommand> recipeCommandList = new ArrayList<>();
+        recipeCommandList.add(new RecipeCommand());
+        recipeCommandList.add(new RecipeCommand());
+        recipeCommandList.add(new RecipeCommand());
+        when(recipeService.findAllByDescriptionLike(anyString()))
+                .thenReturn(recipeCommandList);
+
+        mockMvc.perform(get("/recipes/findRecipe"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/recipes"))
+                .andExpect(model().attribute("selections", hasSize(3)));
+
+    }
+
+    @Test
+    public void getUserRecipes() throws Exception {
+        Set<RecipeCommand> recipes = new HashSet<>();
+        recipes.add(new RecipeCommand());
+        recipes.add(new RecipeCommand());
+        recipes.add(new RecipeCommand());
+
+        when(recipeService.getUserRecipes(anyString())).thenReturn(recipes);
+        mockMvc.perform(get("/recipes/user/somename"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/list"))
+                .andExpect(model().attribute("recipes", hasSize(3)));
+        verify(recipeService, times(1)).getUserRecipes(anyString());
+    }
+
+    @Test
+    public void findRecipe() throws Exception{
+        String viewName = controller.findRecipes(model);
+        assertEquals("recipe/find", viewName);
+    }
 
     @Test
     public void testGetRecipe() throws Exception {

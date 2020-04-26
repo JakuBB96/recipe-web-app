@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -33,6 +36,23 @@ public class RecipeServiceImpl implements RecipeService {
         return recipes;
     }
 
+    @Override
+    public Set<RecipeCommand> getRecipesCommands() {
+        return getRecipes()
+                .stream()
+                .map(recipe -> recipeToRecipeCommand.convert(recipe))
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<RecipeCommand> getUserRecipes(String username) {
+        return getRecipes()
+                .stream()
+                .filter(recipe -> recipe.getUser().getUsername().equals(username))
+                .map(recipe -> recipeToRecipeCommand.convert(recipe))
+                .collect(Collectors.toSet());
+    }
+
     public Recipe findById(Long id){
         Optional<Recipe> recipeOptional = recipeRepository.findById(id);
        if (!recipeOptional.isPresent()){
@@ -49,6 +69,14 @@ public class RecipeServiceImpl implements RecipeService {
        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
        log.debug("Saved RecipeId: " + savedRecipe.getId());
        return recipeToRecipeCommand.convert(savedRecipe);
+    }
+
+    @Override
+    public List<RecipeCommand> findAllByDescriptionLike(String description) {
+        return recipeRepository.findAllByDescriptionLike(description)
+                .stream()
+                .map(recipe -> recipeToRecipeCommand.convert(recipe))
+                .collect(Collectors.toList());
     }
 
     @Transactional

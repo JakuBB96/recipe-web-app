@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <title>Recipes</title>
@@ -14,7 +14,11 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-primary">
 
-                <div class="panel-heading">
+                <div class="panel-heading" sec:authorize="!isAuthenticated()">
+                    <h1 class="panel-title">Recipes</h1>
+
+                </div>
+                <div class="panel-heading" sec:authorize="isAuthenticated()">
                     <h1 class="panel-title">My Recipes!</h1>
                 </div>
                 <div class="panel-body">
@@ -25,8 +29,8 @@
                                 <th>ID</th>
                                 <th>Description</th>
                                 <th>View</th>
-                                <th>Update</th>
-                                <th>Delete</th>
+                                <th sec:authorize="isAuthenticated()">Update</th>
+                                <th sec:authorize="isAuthenticated()">Delete</th>
                             </tr>
                             </thead>
                             <tr th:remove="all">
@@ -44,10 +48,14 @@
                                 <td th:text="${recipe.id}">334</td>
                                 <td th:text="${recipe.description}">Tasty Goodnees 3</td>
                                 <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">View</a></td>
-                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">Update</a></td>
-                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}">Delete</a></td>
+                                <td sec:authorize="isAuthenticated()"><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">Update</a></td>
+                                <td sec:authorize="isAuthenticated()"><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}">Delete</a></td>
                             </tr>
                         </table>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <a class="btn btn-default" href="#"
+                           th:href="@{/recipes/new}" role="button">Add New recipe</a>
                     </div>
                 </div>
             </div>

@@ -46,6 +46,9 @@ public class Recipe{
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private User user;
+
     public void setNotes(Notes notes) {
         if (notes != null) {
             this.notes = notes;

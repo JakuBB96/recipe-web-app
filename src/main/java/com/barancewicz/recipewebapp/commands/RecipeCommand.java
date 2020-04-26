@@ -41,4 +41,5 @@ public class RecipeCommand {
     private Set<CategoryCommand> categories = new HashSet<>();
     @NotNull
     private Difficulty difficulty;
+    private UserCommand user;
 }

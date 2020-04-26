@@ -5,14 +5,17 @@ import com.barancewicz.recipewebapp.commands.IngredientCommand;
 import com.barancewicz.recipewebapp.commands.NotesCommand;
 import com.barancewicz.recipewebapp.commands.RecipeCommand;
 import com.barancewicz.recipewebapp.domain.*;
+import com.barancewicz.recipewebapp.services.RoleService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
 
 public class RecipeCommandToRecipeTest {
-
-
+    @Mock
+    public RoleService roleService;
     RecipeCommandToRecipe converter;
     public static final Long RECIPE_ID = 1L;
     public static final Integer COOK_TIME = Integer.valueOf("10");
@@ -32,9 +35,10 @@ public class RecipeCommandToRecipeTest {
 
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         converter = new RecipeCommandToRecipe(new CategoryCommandToCategory(),
                 new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure()),
-                new NotesCommandToNotes());
+                new NotesCommandToNotes(), new UserCommandToUser(roleService));
     }
 
     @Test
