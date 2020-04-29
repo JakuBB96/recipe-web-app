@@ -32,6 +32,7 @@ public class RecipeCommandToRecipeTest {
     public static final Long INGRED_ID_2 = 4L;
     public static final Long NOTES_ID = 5L;
 
+    //CommentCommandToComment commentCommandToComment;
 
     @Before
     public void setUp() throws Exception {

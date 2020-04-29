@@ -2,6 +2,7 @@ package com.barancewicz.recipewebapp.services;
 
 import com.barancewicz.recipewebapp.commands.CategoryCommand;
 import com.barancewicz.recipewebapp.converters.CategoryToCategoryCommand;
+import com.barancewicz.recipewebapp.domain.Category;
 import com.barancewicz.recipewebapp.repositories.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,10 @@ public class CategoryServiceImpl implements CategoryService {
                                     converter.convert(category)
                             ));
         return categoryCommands;
+    }
+
+    @Override
+    public Category findById(Long id) {
+        return categoryRepository.findById(id).get();
     }
 }

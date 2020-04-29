@@ -4,6 +4,7 @@ import com.barancewicz.recipewebapp.commands.RecipeCommand;
 import com.barancewicz.recipewebapp.converters.RecipeCommandToRecipe;
 import com.barancewicz.recipewebapp.converters.RecipeToRecipeCommand;
 import com.barancewicz.recipewebapp.domain.Recipe;
+import com.barancewicz.recipewebapp.domain.User;
 import com.barancewicz.recipewebapp.exceptions.NotFoundException;
 import com.barancewicz.recipewebapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +23,13 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final RecipeToRecipeCommand recipeToRecipeCommand;
     private final RecipeCommandToRecipe recipeCommandToRecipe;
+    private final UserService userService;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeToRecipeCommand recipeToRecipeCommand, RecipeCommandToRecipe recipeCommandToRecipe) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeToRecipeCommand recipeToRecipeCommand, RecipeCommandToRecipe recipeCommandToRecipe, UserService userService) {
         this.recipeRepository = recipeRepository;
         this.recipeToRecipeCommand = recipeToRecipeCommand;
         this.recipeCommandToRecipe = recipeCommandToRecipe;
+        this.userService = userService;
     }
 
     public Set<Recipe> getRecipes(){
@@ -65,10 +68,18 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
        Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
+        System.out.println(detachedRecipe.getUser());
+        User toBeUpdated = userService.findByUsername(detachedRecipe.getUser().getUsername());
+        toBeUpdated.addRecipe(detachedRecipe);
+        userService.saveOrUpdate(toBeUpdated);
 
-       Recipe savedRecipe = recipeRepository.save(detachedRecipe);
-       log.debug("Saved RecipeId: " + savedRecipe.getId());
-       return recipeToRecipeCommand.convert(savedRecipe);
+     return getRecipesCommands()
+              .stream()
+              .filter(command1 -> command1.getDescription().equals(command.getDescription()))
+              .findFirst()
+             .orElseThrow(() -> new NotFoundException());
+      // Recipe savedRecipe = recipeRepository.save(detachedRecipe);
+      // log.debug("Saved RecipeId: " + savedRecipe.getId());
     }
 
     @Override
@@ -81,13 +92,14 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Transactional
     @Override
-    public RecipeCommand findCommandById(Long id) {
+    public RecipeCommand findCommandById(Long id) throws NotFoundException {
 //        Optional<Recipe> recipeOptional = recipeRepository.findById(id);
 //        if (!recipeOptional.isPresent()){
 //            throw new RuntimeException("Recipe not found");
 //        }
 //        return recipeToRecipeCommand.convert(recipeOptional.get());
-        return recipeToRecipeCommand.convert(findById(id));
+
+            return recipeToRecipeCommand.convert(findById(id));
     }
 
     @Override

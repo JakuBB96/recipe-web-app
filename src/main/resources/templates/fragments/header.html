@@ -18,6 +18,9 @@
                             <a href="#" th:href="@{'/recipes/user/' + ${#authentication.principal.username}}">Your Recipes</a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
+                            <a href="#" th:href="@{'/users/' + ${#authentication.principal.username} + '/profile'}">Your Profile</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()">
                             <a href="/logout"><span class="glyphicon glyphicon-log-in"></span>
                                 Logout</a>
                         </li>

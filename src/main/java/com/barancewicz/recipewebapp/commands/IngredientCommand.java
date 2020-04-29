@@ -19,6 +19,5 @@ public class IngredientCommand {
     private BigDecimal amount;
     @NotNull
     private UnitOfMeasureCommand uom;
-    @NotNull
     private RecipeCommand recipe;
 }

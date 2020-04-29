@@ -31,6 +31,7 @@ public class RecipeToRecipeCommandTest {
     public static final Long NOTES_ID = 5L;
 
 
+   // CommentToCommentCommand commentToCommentCommand;
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);

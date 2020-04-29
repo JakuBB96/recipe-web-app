@@ -30,6 +30,8 @@ public class User {
     private Integer failedLoginAttempts = 0;
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "user")
     private List<Recipe> recipes = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+//    private List<Comment> comments = new ArrayList<>();
     public void addRole(Role role){
         if(!this.roles.contains(role)){
             this.roles.add(role);
@@ -46,5 +48,20 @@ public class User {
         this.recipes.add(recipe);
         recipe.setUser(this);
         return recipe;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", encryptedPassword='" + encryptedPassword + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", enabled=" + enabled +
+                ", failedLoginAttempts=" + failedLoginAttempts +
+                '}';
     }
 }

@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class NotesCommand {
     private Long id;
     private RecipeCommand recipe;
-    @NotNull
+    @NotBlank
     private String recipeNotes;
 
 }

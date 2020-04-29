@@ -19,6 +19,7 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
         this.ingredientCommandToIngredient = ingredientCommandToIngredient;
         this.notesCommandToNotes = notesCommandToNotes;
         this.userCommandToUser = userCommandToUser;
+
     }
 
     @Synchronized
@@ -41,7 +42,6 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
         recipe.setImage(source.getImage());
         recipe.setNotes(notesCommandToNotes.convert(source.getNotes()));
         recipe.setUser(userCommandToUser.convert(source.getUser()));
-
         if (source.getCategories()!=null && source.getCategories().size()>0){
             source.getCategories().forEach(categoryCommand -> recipe.getCategories().add(categoryCommandToCategory.convert(categoryCommand)));
         }

@@ -42,15 +42,27 @@
                                     <label>Categories:</label>
                                 </div>
                                 <div class="col-md-9 form-group">
-                                    <select class="form-control" th:field="*{categories}">
-                                        <option th:each="category : ${allCategories}"
-                                                th:value="${category}"
-                                                th:text="${category.name}"
-                                        >val
-                                        </option>
-                                    </select>
+
+                                    <td>
+                                        <th:block th:each="category : ${allCategories}">
+                                            <input type="checkbox" name="cats" th:value="${category.id}"/>
+                                            <label th:text="${category.name}"></label>
+                                        </th:block>
+                                    </td>
+<!--                                    <select class="form-control" th:field="*{categories}">-->
+<!--                                        <option th:each="category : ${allCategories}"-->
+<!--                                                th:value="${category}"-->
+<!--                                                th:text="${category.name}"-->
+<!--                                        >val-->
+<!--                                        </option>-->
+<!--                                    </select>-->
                                 </div>
                             </div>
+
+
+
+
+
                             <div class="row">
                                 <div class="col-md-3 form-group" th:class="${#fields.hasErrors('prepTime')}
                                 ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
@@ -206,7 +218,9 @@
                     <a class="btn btn-default" href="#"
                        th:href="@{/recipes}" role="button">List Recipes</a>
                 </div>
+                </div>
             </form>
+
         </div>
     </div>
 </div>

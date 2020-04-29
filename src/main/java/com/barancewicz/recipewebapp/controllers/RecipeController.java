@@ -1,12 +1,19 @@
 package com.barancewicz.recipewebapp.controllers;
 
+import com.barancewicz.recipewebapp.commands.CommentCommand;
 import com.barancewicz.recipewebapp.commands.RecipeCommand;
+import com.barancewicz.recipewebapp.converters.CategoryToCategoryCommand;
 import com.barancewicz.recipewebapp.converters.UserToUserCommand;
+import com.barancewicz.recipewebapp.domain.Category;
+import com.barancewicz.recipewebapp.domain.Recipe;
+import com.barancewicz.recipewebapp.domain.User;
 import com.barancewicz.recipewebapp.exceptions.NotFoundException;
 import com.barancewicz.recipewebapp.services.CategoryService;
+import com.barancewicz.recipewebapp.services.CommentService;
 import com.barancewicz.recipewebapp.services.RecipeService;
 import com.barancewicz.recipewebapp.services.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +35,12 @@ public class RecipeController {
     private final CategoryService categoryService;
     private final UserService userService;
     private final UserToUserCommand userToUserCommand;
+    private CategoryToCategoryCommand categoryToCategoryCommand;
+
+    @Autowired
+    public void setCategoryToCategoryCommand(CategoryToCategoryCommand categoryToCategoryCommand) {
+        this.categoryToCategoryCommand = categoryToCategoryCommand;
+    }
 
     public RecipeController(RecipeService recipeService, CategoryService categoryService, UserService userService, UserToUserCommand userToUserCommand) {
         this.recipeService = recipeService;
@@ -75,15 +88,18 @@ public class RecipeController {
 
     @GetMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model){
-        model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(id)));
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(id));
+//        CommentCommand commentCommand = new CommentCommand();
+        model.addAttribute("recipe", recipeCommand);
+//        model.addAttribute("comment", commentCommand);
         return "recipe/show";
     }
 
     @GetMapping("/recipe/{id}/delete")
-    public String deleteById(@PathVariable String id){
+    public String deleteById(@PathVariable String id, @AuthenticationPrincipal UserDetails user){
         log.debug("Deleting id: " + id);
         recipeService.deleteById(Long.valueOf(id));
-        return "redirect:/recipes";
+        return "redirect:/recipes/user/" + user.getUsername();
     }
 
     //this method will render the view
@@ -99,17 +115,45 @@ public class RecipeController {
         model.addAttribute("allCategories" , categoryService.getCategories());
         return RECIPE_RECIPEFORM_URL;
     }
+
+//    @PostMapping("recipe/{recipeId}/comment")
+//    public String addComment(@PathVariable String recipeId, @ModelAttribute("comment") CommentCommand command, @AuthenticationPrincipal UserDetails currentUser){
+//        User user = userService.findByUsername(currentUser.getUsername());
+//        command.setUser(userToUserCommand.convert(user));
+//
+////        System.out.println("Command: " + command.getUser().getFirstName());
+////        System.out.println("Command: " + command.getUser().getLastName());
+//        RecipeCommand recipe= recipeService.findCommandById(Long.valueOf(recipeId));
+//        command.setRecipe(recipe);
+//        System.out.println(recipe.getDescription());
+//        CommentCommand savedComment = commentService.saveComment(command);
+//        System.out.println(savedComment.getUser().getFirstName());
+//        System.out.println(savedComment.getUser().getLastName());
+//        System.out.println(savedComment.getRecipe().getDescription());
+//        return "redirect:/recipe/" + recipeId +"/show";
+//    }
+
     @PostMapping("recipe")
-    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult, @AuthenticationPrincipal UserDetails user){
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command,
+                               BindingResult bindingResult,
+                               @RequestParam(value = "cats" , required = false) Long[] cats,
+                               @AuthenticationPrincipal UserDetails userDetails) {
+        System.out.println("i'm here");
+
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());
             });
             return RECIPE_RECIPEFORM_URL;
         }
-        command.setUser(userToUserCommand.convert(userService.findByUsername(user.getUsername())));
+        if (cats!=null){
+            for (int i = 0; i < cats.length; i++) {
+                command.getCategories().add(categoryToCategoryCommand.convert(categoryService.findById(cats[i])));
+            }
+        }
+        command.setUser(userToUserCommand.convert(userService.findByUsername(userDetails.getUsername())));
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
-        System.out.println(savedCommand.getUser().getUsername());
+
         return "redirect:/recipe/" + savedCommand.getId() +"/show";
     }
 

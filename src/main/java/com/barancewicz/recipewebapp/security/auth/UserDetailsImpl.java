@@ -3,9 +3,10 @@ package com.barancewicz.recipewebapp.security.auth;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-
+@Service
 public class UserDetailsImpl implements UserDetails {
     private Collection<SimpleGrantedAuthority> authorities;
     private String username;

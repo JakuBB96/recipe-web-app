@@ -6,8 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -34,7 +37,7 @@ public class RecipeCommand {
     private String url;
     @NotBlank
     private String directions;
-    @NotNull
+    @Valid
     private NotesCommand notes;
     private Byte[] image;
     private Set<IngredientCommand> ingredients = new HashSet<>();
@@ -42,4 +45,5 @@ public class RecipeCommand {
     @NotNull
     private Difficulty difficulty;
     private UserCommand user;
+    private List<CommentCommand> comments = new ArrayList<>();
 }

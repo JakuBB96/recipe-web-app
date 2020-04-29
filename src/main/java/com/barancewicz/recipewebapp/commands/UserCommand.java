@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class UserCommand {
+    private Long id;
     @NotNull
     @NotEmpty
     private String firstName;

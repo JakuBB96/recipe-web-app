@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface CategoryService {
     Set<CategoryCommand> getCategories();
+    Category findById (Long id);
 }

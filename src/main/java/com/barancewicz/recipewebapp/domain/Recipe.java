@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -46,8 +48,11 @@ public class Recipe{
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private User user;
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+//    private List<Comment> comments = new ArrayList<>();
 
     public void setNotes(Notes notes) {
         if (notes != null) {
@@ -61,4 +66,9 @@ public class Recipe{
         ingredient.setRecipe(this);
         return this;
     }
+//    public Recipe addComment(Comment comment){
+//        this.comments.add(comment);
+//        comment.setRecipe(this);
+//        return this;
+//    }
 }

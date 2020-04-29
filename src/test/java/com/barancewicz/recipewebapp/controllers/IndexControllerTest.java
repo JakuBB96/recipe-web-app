@@ -1,5 +1,6 @@
 package com.barancewicz.recipewebapp.controllers;
 
+import com.barancewicz.recipewebapp.commands.RecipeCommand;
 import com.barancewicz.recipewebapp.domain.Recipe;
 import com.barancewicz.recipewebapp.services.RecipeService;
 import com.barancewicz.recipewebapp.services.UserService;
@@ -52,14 +53,14 @@ public class IndexControllerTest {
     public void getIndexPage() {
 
         //given
-        Set<Recipe> recipes = new HashSet<>();
-        recipes.add(new Recipe());
-        Recipe r1 = new Recipe();
+        Set<RecipeCommand> recipes = new HashSet<>();
+        recipes.add(new RecipeCommand());
+        RecipeCommand r1 = new RecipeCommand();
         r1.setId(1L);
         r1.setDescription("Test");
         recipes.add(r1);
 
-        when(recipeService.getRecipes()).thenReturn(recipes);
+        when(recipeService.getRecipesCommands()).thenReturn(recipes);
         ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
 
         //when
@@ -67,7 +68,7 @@ public class IndexControllerTest {
         assertEquals("index", viewName);
 
         //then
-        verify(recipeService, times(1)).getRecipes();
+        verify(recipeService, times(1)).getRecipesCommands();
         verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
         Set<Recipe> setInController = argumentCaptor.getValue();
 
