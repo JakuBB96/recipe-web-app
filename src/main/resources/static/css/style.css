@@ -117,3 +117,11 @@ img {
     font-weight: 200;
     line-height: 30px;
 }
+
+.card-body {
+    background-color: rgba(247, 247, 247, 0.7);
+    margin: 0 auto;
+    float: none;
+    width: 50%;
+    padding: 40px;
+}
