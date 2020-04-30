@@ -31,6 +31,7 @@ import java.util.List;
 public class RecipeController {
 
     public static final String RECIPE_RECIPEFORM_URL = "recipe/recipeform";
+    public static final String RECIPE_RECIPELIST_URL = "recipe/list";
     private final RecipeService recipeService;
     private final CategoryService categoryService;
     private final UserService userService;
@@ -78,12 +79,12 @@ public class RecipeController {
     @GetMapping("/recipes")
     public String listRecipes(Model model){
         model.addAttribute("recipes", recipeService.getRecipesCommands());
-        return "recipe/list";
+        return RECIPE_RECIPELIST_URL;
     }
     @GetMapping("/recipes/user/{username}")
     public String listUserRecipes(@PathVariable String username, Model model){
         model.addAttribute("recipes", recipeService.getUserRecipes(username));
-        return "recipe/list";
+        return RECIPE_RECIPELIST_URL;
     }
 
     @GetMapping("/recipe/{id}/show")

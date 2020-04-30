@@ -27,68 +27,81 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h5 th:text="'Categories:'">Categories:</h5>
-                            </div>
-                            <div class="col-md-9">
-                                <ul>
-                                    <li th:remove="all">cat one</li>
-                                    <li th:remove="all">cat two</li>
-                                    <li th:each="category : ${recipe.categories}" th:text="${category.name}">cat three</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <img src="../../static/images/image.jpg"
-                                     th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"
-                                     width="200" height="200">
-                            </div>
+                        <div class="col-md-4 form-group">
+                            <img src="../../static/images/image.jpg"
+                                 th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"
+                                 width="200" height="200">
                         </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h5 th:text="'Prep Time:'">Prep Time:</h5>
+                        <div class="col-md-8 form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Difficulty:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p th:text="${recipe.difficulty}">30 min</p>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <p th:text="${recipe.prepTime}">30 min</p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Servings:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p th:text="${recipe.servings}">4</p>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <h5>Difficulty:</h5>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Prep Time:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p th:text="${recipe.prepTime}">30 min</p>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <p th:text="${recipe.difficulty}">30 min</p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Cooktime:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p th:text="${recipe.cookTime}">10 min</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h5>Cooktime:</h5>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Categories:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <span th:each="category : ${recipe.categories}" th:text="'&#8226' + ${category.name} + ' '">cat three</span>
+<!--                                    <ul>-->
+<!--                                        <li th:remove="all">cat one</li>-->
+<!--                                        <li th:remove="all">cat two</li>-->
+<!--                                        <li th:each="category : ${recipe.categories}" th:text="${category.name}">cat three</li>-->
+<!--                                    </ul>-->
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <p th:text="${recipe.cookTime}">10 min</p>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Source:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p th:text="${recipe.source}">Example source</p>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <h5>Servings:</h5>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="col-form-label">URL:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p th:text="${recipe.url}">google.com</p>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <p th:text="${recipe.servings}">4</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h5>Source:</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <p th:text="${recipe.source}">Example source</p>
-                            </div>
-                            <div class="col-md-3">
-                                <h5>URL:</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <p th:text="${recipe.url}">google.com</p>
-                            </div>
+
                         </div>
                     </div>
                 </div>
+
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
@@ -180,10 +193,6 @@
             </div>
         </div>
     </div>
-
-
-
-</div>
 <!--<div class="container" th:replace="fragments/footer :: footer">-->
 <!--    <p>footer</p>-->
 <!--</div>-->

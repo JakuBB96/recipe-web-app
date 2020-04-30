@@ -429,7 +429,6 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
         user.setAvatar("avatar.jpg");
         user.addRecipe(getRecipes().get(0));
         user.addRecipe(getRecipes().get(1));
-       // userService.saveOrUpdate(user);
         User user1 = new User();
         user1.setUsername("user1");
         user1.setPassword("user1");
@@ -437,7 +436,6 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
         user1.setLastName("Smith");
         user1.setAvatar("avatar.jpg");
         user1.addRecipe(getRecipes().get(2));
-        //userService.saveOrUpdate(user1);
         User user2 = new User();
         user2.setUsername("user2");
         user2.setPassword("user2");
@@ -446,14 +444,12 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
         user2.setAvatar("avatar.jpg");
         user2.addRecipe(getRecipes().get(4));
         user2.addRecipe(getRecipes().get(5));
-        //userService.saveOrUpdate(user2);
         User admin = new User();
         admin.setUsername("admin");
         admin.setPassword("admin");
         admin.setFirstName("Sam");
         admin.setAvatar("avatar.jpg");
         admin.setLastName("Axe");
-        //userService.saveOrUpdate(admin);
 
 //        Comment comment = new Comment();
 //        comment.setUser(user1);

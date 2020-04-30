@@ -12,13 +12,22 @@
                     <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
                     <ul class="nav navbar-nav">
                         <li sec:authorize="isAuthenticated()">
-                            <a href="#" th:href="@{/recipe/new}">Create new Recipe</a>
+                            <a href="#" sec:authorize="hasAuthority('USER')" th:href="@{/recipe/new}">Create new Recipe</a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
-                            <a href="#" th:href="@{'/recipes/user/' + ${#authentication.principal.username}}">Your Recipes</a>
+                            <a href="#" sec:authorize="hasAuthority('USER')" th:href="@{'/recipes/user/' + ${#authentication.principal.username}}">Your Recipes</a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
-                            <a href="#" th:href="@{'/users/' + ${#authentication.principal.username} + '/profile'}">Your Profile</a>
+                            <a href="#" sec:authorize="hasAuthority('USER')" th:href="@{'/users/' + ${#authentication.principal.username} + '/profile'}">Your Profile</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()">
+                            <a href="#" sec:authorize="hasAuthority('ADMIN')" th:href="@{'/admin/list'}">Users</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()">
+                            <a href="#" sec:authorize="hasAuthority('ADMIN')" th:href="@{'/admin/categories'}">Categories</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()">
+                            <a href="#" sec:authorize="hasAuthority('ADMIN')" th:href="@{'/admin/uoms'}">UOMs</a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
                             <a href="/logout"><span class="glyphicon glyphicon-log-in"></span>

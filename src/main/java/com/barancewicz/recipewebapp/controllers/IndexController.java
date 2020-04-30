@@ -21,6 +21,7 @@ import javax.validation.Valid;
 @Slf4j
 @Controller
 public class IndexController {
+    public static final String REGISTRATION_PAGE = "register";
     private final RecipeService recipeService;
     private final UserService userService;
     public IndexController(RecipeService recipeService, UserService userService) {
@@ -41,7 +42,7 @@ public class IndexController {
     public String showRegistrationForm(Model model) {
         UserCommand command = new UserCommand();
         model.addAttribute("user", command);
-        return "register";
+        return REGISTRATION_PAGE;
     }
     @PostMapping("register")
     public String registerUserAccount
@@ -56,7 +57,7 @@ public class IndexController {
             User registered = userService.registerNewUserAccount(userDto);
         } catch (UserAlreadyExistException uaeEx) {
            model.addAttribute("message", "An account for that username/email already exists.");
-           return "register";
+           return REGISTRATION_PAGE;
         }
        return "redirect:/login";
     }

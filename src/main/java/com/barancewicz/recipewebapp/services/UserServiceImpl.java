@@ -2,9 +2,12 @@ package com.barancewicz.recipewebapp.services;
 
 import com.barancewicz.recipewebapp.commands.UserCommand;
 import com.barancewicz.recipewebapp.converters.UserCommandToUser;
+import com.barancewicz.recipewebapp.converters.UserToUserCommand;
 import com.barancewicz.recipewebapp.domain.User;
+import com.barancewicz.recipewebapp.exceptions.NotMatchingPswdException;
 import com.barancewicz.recipewebapp.exceptions.UserAlreadyExistException;
 import com.barancewicz.recipewebapp.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,16 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserCommandToUser userCommandToUser;
-
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCommandToUser userCommandToUser) {
+    private final UserToUserCommand userToUserCommand;
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCommandToUser userCommandToUser, UserToUserCommand userToUserCommand) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userCommandToUser = userCommandToUser;
+        this.userToUserCommand = userToUserCommand;
     }
 
     public List<User> listAll() {
@@ -57,6 +62,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 
+    @Override
+    public UserCommand findCommandByUsername(String username) {
+        return userToUserCommand.convert(findByUsername(username));
+    }
+
     private boolean usernameExist(String username) {
         return userRepository.findByUsername(username) != null;
     }
@@ -69,5 +79,21 @@ public class UserServiceImpl implements UserService {
                             +  userDto.getUsername());
         }
         return saveOrUpdate(userCommandToUser.convert(userDto));
+    }
+    @Transactional
+    @Override
+    public UserCommand changePswd(UserCommand userDto) {
+        User user = null;
+        if (userRepository.findById(userDto.getId()).isPresent()) {
+            if (!userDto.getPassword().equals(userDto.getMatchingPassword())){
+                throw new NotMatchingPswdException(
+                        "Passwords are not the same");
+            }
+           log.debug("User found, updating password");
+           user = userRepository.findById(userDto.getId()).get();
+           user.setPassword(userDto.getPassword());
+           user.setEncryptedPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        return userToUserCommand.convert(userRepository.save(user));
     }
 }
