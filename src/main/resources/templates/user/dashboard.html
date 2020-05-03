@@ -18,13 +18,13 @@
             <div class="card-body p-5">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h1 class="panel-title">User details:</h1>
+                        <h1 class="panel-title" th:text="#{label.user.details}">User details:</h1>
                     </div>
                     <div class="panel-body">
                             <div class="col-md-8 form-group">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label class="col-form-label">Username:</label>
+                                        <label class="col-form-label" th:text="#{label.user.username}">Username:</label>
                                     </div>
                                     <div class="col-md-6">
                                         <p th:text="${user.username}">uName</p>
@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label class="col-form-label">First Name:</label>
+                                        <label class="col-form-label" th:text="#{label.user.firstName}">First Name:</label>
                                     </div>
                                     <div class="col-md-6">
                                         <p th:text="${user.firstName}">fName</p>
@@ -40,7 +40,7 @@
                                 </div>
                                     <div class="row">
                                     <div class="col-md-6">
-                                        <label class="col-form-label">Last Name:</label>
+                                        <label class="col-form-label" th:text="#{label.user.lastName}">Last Name:</label>
                                     </div>
                                     <div class="col-md-6">
                                         <p th:text="${user.lastName}">lName</p>
@@ -51,7 +51,7 @@
                             <img align="left" alt="Recipe"
                                  src="/images/avatar.jpg"
                                  th:src="@{'/images/'+${user.avatar}}"
-                                 style="width: -moz-available"/>
+                                 style="width:-moz-available"/>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
             <div class="card-body p-5">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h1 class="panel-title">Change your password</h1>
+                        <h1 class="panel-title" th:text="#{label.user.changePswd}">Change your password</h1>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -73,11 +73,11 @@
                                 <form class="form-signin" th:object="${user}" method="POST" action="/users/edit" enctype="utf8">
                                     <input type="hidden" th:field="*{id}"/>
                                     <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                                        <p th:text="#{user.hasErrors}">Error Message</p>
+                                        <p th:text="#{field.hasErrors}">Error Message</p>
                                     </div>
 
                                     <div class="form-group row" th:class="${#fields.hasErrors('password')} ? 'form-group row has-error' : 'form-group row'">
-                                        <label class="col-sm-5 col-form-label">New Password:</label>
+                                        <label class="col-sm-5 col-form-label" th:text="#{label.user.newPassword}">New Password:</label>
                                         <div class="col-sm-6">
                                             <input type="password" class="form-control" th:field="*{password}" th:errorclass="has-error"/>
                                             <span class="help-block" th:if="${#fields.hasErrors('password')}">
@@ -89,7 +89,7 @@
                                     </div>
 
                                     <div class="form-group row" th:class="${#fields.hasErrors('matchingPassword')} ? 'form-group row has-error' : 'form-group row'">
-                                        <label class="col-sm-5 col-form-label" th:text="#{label.user.confirmPass}">Confirm New Password:</label>
+                                        <label class="col-sm-5 col-form-label" th:text="#{label.user.confirmNewPass}">Confirm New Password:</label>
                                         <div class="col-sm-6">
                                             <input type="password" class="form-control" th:field="*{matchingPassword}" th:errorclass="has-error"/>
                                             <span class="help-block" th:if="${#fields.hasErrors('matchingPassword')}">
@@ -100,8 +100,8 @@
                                         </div>
                                     </div>
 
-                                    <input type="submit" class="btn btn-success btn-rounded btn-sm my-0" role="button" value="Submit">
-                                    <input type="reset" class="btn btn-danger btn-rounded btn-sm my-0" role="button" value="Clear" />
+                                    <input type="submit" class="btn btn-success btn-rounded btn-sm my-0" role="button" th:value="#{button.submit}" value="Submit">
+                                    <input type="reset" class="btn btn-danger btn-rounded btn-sm my-0" role="button" th:value="#{button.reset}" value="Clear" />
                                 </form>
                                 <div th:if="${message != null}" class="alert alert-danger">
                                     <p th:text="${message}">Error Message</p>

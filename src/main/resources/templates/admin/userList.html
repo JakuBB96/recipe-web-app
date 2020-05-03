@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Users</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+</div>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading" sec:authorize="isAuthenticated()">
+                    <h1 class="panel-title" th:text="#{label.user.list.title}">All Users</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(users)}">
+                        <table class="table table-hover ">
+                            <thead class="thead-inverse">
+                            <tr>
+                                <th th:text="#{table.id}">ID</th>
+                                <th th:text="#{table.user.uName}">Username</th>
+                                <th th:text="#{table.user.fName}">First Name</th>
+                                <th th:text="#{table.user.lName}">Last Name</th>
+                                <th th:text="#{table.delete}">Delete</th>
+                            </tr>
+                            </thead>
+                            <tr th:remove="all">
+                                <td th:text="${user.id}">123</td>
+                                <td th:text="${user.username}">YoMama</td>
+                                <td th:text="${user.firstName}">Mark</td>
+                                <td th:text="${user.lastName}">Green</td>
+                                <td><a href="#">View</a> </td>
+                            </tr>
+                            <tr th:remove="all">
+                                <td th:text="${user.id}">12333</td>
+                                <td th:text="${user.username}">YoMama</td>
+                                <td th:text="${user.firstName}">Mark</td>
+                                <td th:text="${user.lastName}">Green</td>
+                                <td><a href="#">View</a> </td>
+                            </tr>
+                            <tr th:each="user : ${users}">
+                                <td th:text="${user.id}">334</td>
+                                <td th:text="${user.username}">YoMama</td>
+                                <td th:text="${user.firstName}">Mark</td>
+                                <td th:text="${user.lastName}">Green</td>
+                                <td><a href="#" th:text="#{table.delete}" th:href="@{'/admin/users/' + ${user.id} + '/delete'}">Delete</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <a class="btn btn-default" href="#"
+                           th:href="@{/admin/users/new}" role="button" th:text="#{button.addNewUser}">Add New User</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" th:replace="fragments/footer :: footer">
+    <p>footer</p>
+</div>
+</body>
+</html>

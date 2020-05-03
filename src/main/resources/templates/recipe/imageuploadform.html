@@ -14,21 +14,21 @@
             <div class="pannel-group">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h1 class="panel-title">Upload a new recipe image</h1>
+                        <h1 class="panel-title" th:text="#{label.image.title}">Upload a new recipe image</h1>
                     </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-5">
                                 <form  action="http:\\localhost" method="post" enctype="multipart/form-data"
                                        th:action="@{'/recipe/' + ${recipe.getId()} + '/image'}">
-                                    <label class="control-label">Select File</label>
+                                    <label class="control-label" th:text="#{label.select.file}">Select File</label>
                                     <input id="imagefile" name="imagefile" type="file" class="file">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary" th:text="#{button.submit}">Submit</button>
                                 </form>
                             </div>
                         </div>
                         <a class="btn btn-default" href="#"
-                           th:href="@{'/recipe/' + ${recipe.id} + '/show'}" role="button">Back</a>
+                           th:href="@{'/recipe/' + ${recipe.id} + '/show'}" th:text="#{button.back}" role="button">Back</a>
                     </div>
                 </div>
             </div>

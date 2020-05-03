@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -21,12 +20,15 @@ public class RecipeCommand {
     @NotBlank
     @Size(min =3, max = 255)
     private String description;
+    @NotNull
     @Min(1)
     @Max(999)
     private Integer prepTime;
+    @NotNull
     @Min(1)
     @Max(999)
     private Integer cookTime;
+    @NotNull
     @Min(1)
     @Max(100)
     private Integer servings;
@@ -41,9 +43,9 @@ public class RecipeCommand {
     private NotesCommand notes;
     private Byte[] image;
     private Set<IngredientCommand> ingredients = new HashSet<>();
+    @Valid
     private Set<CategoryCommand> categories = new HashSet<>();
     @NotNull
     private Difficulty difficulty;
     private UserCommand user;
-    private List<CommentCommand> comments = new ArrayList<>();
 }

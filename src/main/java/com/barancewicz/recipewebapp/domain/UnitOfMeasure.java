@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class UnitOfMeasure{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,4 +15,8 @@ public class UnitOfMeasure{
     private String description;
     @OneToOne
     private Ingredient ingredient;
+
+    public UnitOfMeasure(String description) {
+        this.description = description;
+    }
 }

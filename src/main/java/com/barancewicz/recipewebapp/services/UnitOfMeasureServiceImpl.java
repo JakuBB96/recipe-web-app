@@ -1,6 +1,7 @@
 package com.barancewicz.recipewebapp.services;
 
 import com.barancewicz.recipewebapp.commands.UnitOfMeasureCommand;
+import com.barancewicz.recipewebapp.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import com.barancewicz.recipewebapp.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import com.barancewicz.recipewebapp.domain.UnitOfMeasure;
 import com.barancewicz.recipewebapp.repositories.UnitOfMeasureRepository;
@@ -15,10 +16,11 @@ import java.util.stream.StreamSupport;
 public class UnitOfMeasureServiceImpl implements UnitOfMeasureService{
 
     private final UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
+    private final UnitOfMeasureCommandToUnitOfMeasure unitOfMeasureCommandToUnitOfMeasure;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
-
-    public UnitOfMeasureServiceImpl(UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand, UnitOfMeasureRepository unitOfMeasureRepository) {
+    public UnitOfMeasureServiceImpl(UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand, UnitOfMeasureCommandToUnitOfMeasure unitOfMeasureCommandToUnitOfMeasure, UnitOfMeasureRepository unitOfMeasureRepository) {
         this.unitOfMeasureToUnitOfMeasureCommand = unitOfMeasureToUnitOfMeasureCommand;
+        this.unitOfMeasureCommandToUnitOfMeasure = unitOfMeasureCommandToUnitOfMeasure;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
     }
 
@@ -30,5 +32,22 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService{
                 .map(unitOfMeasureToUnitOfMeasureCommand::convert)
                 .collect(Collectors.toSet());
 
+    }
+
+    @Override
+    public UnitOfMeasureCommand findUomById(Long id) {
+        return unitOfMeasureToUnitOfMeasureCommand.convert(unitOfMeasureRepository.findById(id).get());
+    }
+
+
+    @Override
+    public UnitOfMeasureCommand saveUOM(UnitOfMeasureCommand command) {
+        UnitOfMeasure detachedUOM = unitOfMeasureCommandToUnitOfMeasure.convert(command);
+        return unitOfMeasureToUnitOfMeasureCommand.convert(unitOfMeasureRepository.save(detachedUOM));
+    }
+
+    @Override
+    public UnitOfMeasure saveUOM(UnitOfMeasure uom) {
+        return unitOfMeasureRepository.save(uom);
     }
 }

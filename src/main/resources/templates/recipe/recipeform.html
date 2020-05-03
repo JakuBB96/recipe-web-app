@@ -14,14 +14,14 @@
             <form th:object="${recipe}" th:action="@{/recipe/}" method="post">
 
                 <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                    <p>Please Correct Errors Below</p>
+                    <p th:text="#{field.hasErrors}">Please Correct Errors Below</p>
                 </div>
 
                 <input type="hidden" th:field="*{id}"/>
                 <div class="pannel-group">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h1 class="panel-title">Edit Recipe Information</h1>
+                            <h1 class="panel-title" th:text="#{label.edit.recipe}">Edit Recipe Information</h1>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -37,12 +37,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 form-group" th:class="${#fields.hasErrors('categories')}
-                                ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
-                                    <label>Categories:</label>
+                                <div class="col-md-3 form-group">
+                                    <label th:text="#{recipe.categories}">Categories:</label>
                                 </div>
-                                <div class="col-md-9 form-group">
-
+                                <div class="col-md-9 form-group" th:class="${#fields.hasErrors('categories')}
+                                ? 'col-md-9 form-group has-error' : 'col-md-9 form-group'">
                                     <td>
                                         <th:block th:each="category : ${allCategories}">
                                             <input type="checkbox" name="cats" th:value="${category.id}" th:checked="${recipe.getCategories().contains(category)}"/>
@@ -73,15 +72,21 @@
                                         </ul>
                                     </span>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Difficulty:</label>
-                                    <select class="form-control" th:field="*{difficulty}">
+                                <div class="col-md-3 form-group" th:class="${#fields.hasErrors('difficulty')}
+                                ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
+                                    <label th:text="#{recipe.difficulty}">Difficulty:</label>
+                                    <select class="form-control" th:field="*{difficulty}" th:errorclass="has-error"/>
                                         <option th:each="difficultyValue : ${T(com.barancewicz.recipewebapp.domain.Difficulty).values()}"
                                                 th:value="${difficultyValue.name()}"
                                                 th:text="${difficultyValue.name()}"
                                         >val
                                         </option>
                                     </select>
+                                    <span class="help-block" th:if="${#fields.hasErrors('difficulty')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('difficulty')}" th:text="${err}"/>
+                                        </ul>
+                                    </span>
                                     <select class="form-control" th:remove="all">
                                         <option>Easy</option>
                                         <option>Medium</option>
@@ -92,7 +97,7 @@
                             <div class="row">
                                 <div class="col-md-3 form-group" th:class="${#fields.hasErrors('servings')}
                                 ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
-                                    <label>Servings:</label>
+                                    <label th:text="#{recipe.servings}">Servings:</label>
                                     <input type="text" class="form-control" th:field="*{servings}" th:errorclass="has-error"/>
                                     <span class="help-block" th:if="${#fields.hasErrors('servings')}">
                                         <ul>
@@ -102,7 +107,7 @@
                                 </div>
                                 <div class="col-md-3 form-group" th:class="${#fields.hasErrors('source')}
                                 ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
-                                    <label>Source:</label>
+                                    <label th:text="#{recipe.source}">Source:</label>
                                     <input type="text" class="form-control" th:field="*{source}"/>
                                     <span class="help-block" th:if="${#fields.hasErrors('source')}">
                                         <ul>
@@ -112,7 +117,7 @@
                                 </div>
                                 <div class="col-md-3 form-group" th:class="${#fields.hasErrors('url')}
                                 ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
-                                    <label>URL:</label>
+                                    <label th:text="#{recipe.URL}">URL:</label>
                                     <input type="text" class="form-control" th:field="*{url}" th:errorclass="has-error"/>
                                     <span class="help-block" th:if="${#fields.hasErrors('url')}">
                                         <ul>
@@ -127,11 +132,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-md-11">
-                                    <h1 class="panel-title">Ingredients</h1>
+                                    <h1 class="panel-title" th:text="#{recipe.ingredients.title}">Ingredients</h1>
                                 </div>
                                 <div class="col-md-1">
                                     <a class="btn btn-default" href="#"
-                                       th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" role="button">View</a>
+                                       th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" th:text="#{button.view}" role="button">View</a>
                                 </div>
                             </div>
                         </div>
@@ -189,9 +194,9 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" th:text="#{button.submit}">Submit</button>
                     <a class="btn btn-default" href="#"
-                       th:href="@{/recipes}" role="button">List Recipes</a>
+                       th:href="@{/recipes}" role="button" th:text="#{button.listRecipes}">List Recipes</a>
                 </div>
                 </div>
             </form>

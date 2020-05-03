@@ -6,6 +6,7 @@ import com.barancewicz.recipewebapp.converters.UserToUserCommand;
 import com.barancewicz.recipewebapp.domain.User;
 import com.barancewicz.recipewebapp.exceptions.NotMatchingPswdException;
 import com.barancewicz.recipewebapp.exceptions.UserAlreadyExistException;
+import com.barancewicz.recipewebapp.repositories.RecipeRepository;
 import com.barancewicz.recipewebapp.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,11 +23,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserCommandToUser userCommandToUser;
     private final UserToUserCommand userToUserCommand;
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCommandToUser userCommandToUser, UserToUserCommand userToUserCommand) {
+    private final RecipeRepository recipeRepository;
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCommandToUser userCommandToUser, UserToUserCommand userToUserCommand, RecipeRepository recipeRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userCommandToUser = userCommandToUser;
         this.userToUserCommand = userToUserCommand;
+        this.recipeRepository = recipeRepository;
     }
 
     public List<User> listAll() {
@@ -35,6 +38,13 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
+    public List<UserCommand> listAllUserCommand() {
+        List<UserCommand> users = new ArrayList<>();
+        userRepository.findAll().forEach(user -> {
+            users.add(userToUserCommand.convert(user));
+        });
+        return users;
+    }
     public User getById(Long id) {
         return userRepository.findById(id).get();
     }
@@ -54,12 +64,22 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteById(Long id) {
+        User user = userRepository.findById(id).get();
+        user.getRecipes().forEach(recipeRepository::delete);
+        user.getRoles().forEach(role -> role.getUsers().remove(user));
+        user.setRecipes(null);
+        user.setRoles(null);
         userRepository.deleteById(id);
     }
 
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserCommand findUserById(Long id) {
+        return userToUserCommand.convert(userRepository.findById(id).get());
     }
 
     @Override
@@ -77,6 +97,10 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistException(
                     "There is an account with that email address: "
                             +  userDto.getUsername());
+        }
+        if (!userDto.getPassword().equals(userDto.getMatchingPassword())){
+            throw new NotMatchingPswdException(
+                    "Passwords must be the same");
         }
         return saveOrUpdate(userCommandToUser.convert(userDto));
     }

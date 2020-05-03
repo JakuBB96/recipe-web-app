@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -19,12 +20,15 @@ public class UserCommand {
     private String lastName;
     @NotNull
     @NotEmpty
+    @Size(min = 4, max = 16)
     private String password;
     @NotNull
     @NotEmpty
+    @Size(min = 4, max = 16)
     private String matchingPassword;
     @NotNull
     @NotEmpty
+    @Size(min = 4, max = 16)
     private String username;
     private String avatar;
 }

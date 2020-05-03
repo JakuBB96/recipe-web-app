@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/index/**", "/recipes","/recipe/*/show","/console/*","/recipe/*/recipeimage",
                         "/h2-console/**", "/register", "/recipes/find", "/recipes/findRecipe").permitAll()
                 .and().authorizeRequests().antMatchers("/static/css/**","/js/**", "/images/**","/css/**", "/**/favicon.ico","/webjars/**").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -52,6 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
                 .defaultSuccessUrl("/index")
+                .passwordParameter("password")
+                .usernameParameter("username")
                 .and()
                 .logout()
                 .logoutUrl("/logout")

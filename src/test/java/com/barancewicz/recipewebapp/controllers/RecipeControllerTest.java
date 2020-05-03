@@ -1,20 +1,15 @@
 package com.barancewicz.recipewebapp.controllers;
 
 import com.barancewicz.recipewebapp.commands.RecipeCommand;
-import com.barancewicz.recipewebapp.commands.UserCommand;
 import com.barancewicz.recipewebapp.converters.UserToUserCommand;
-import com.barancewicz.recipewebapp.domain.Recipe;
 import com.barancewicz.recipewebapp.exceptions.NotFoundException;
 import com.barancewicz.recipewebapp.services.CategoryService;
-import com.barancewicz.recipewebapp.services.CommentService;
 import com.barancewicz.recipewebapp.services.RecipeService;
 import com.barancewicz.recipewebapp.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;

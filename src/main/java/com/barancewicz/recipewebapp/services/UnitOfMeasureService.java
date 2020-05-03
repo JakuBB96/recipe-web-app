@@ -5,6 +5,9 @@ import com.barancewicz.recipewebapp.domain.UnitOfMeasure;
 
 import java.util.Set;
 
-public interface UnitOfMeasureService {
+public interface UnitOfMeasureService{
     Set<UnitOfMeasureCommand> listAllUoms();
+    UnitOfMeasureCommand findUomById(Long id);
+    UnitOfMeasureCommand saveUOM(UnitOfMeasureCommand command);
+    UnitOfMeasure saveUOM(UnitOfMeasure uom);
 }

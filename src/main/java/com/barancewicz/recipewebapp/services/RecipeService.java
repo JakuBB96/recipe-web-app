@@ -7,7 +7,7 @@ import com.barancewicz.recipewebapp.domain.Recipe;
 import java.util.List;
 import java.util.Set;
 
-public interface RecipeService {
+public interface RecipeService{
     Set<Recipe> getRecipes();
     Set<RecipeCommand> getRecipesCommands();
     Set<RecipeCommand> getUserRecipes(String username);

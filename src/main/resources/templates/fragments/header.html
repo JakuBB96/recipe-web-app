@@ -9,43 +9,42 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
+                    <a class="navbar-brand" href="#" th:href="@{/}" th:text="#{label.nav.home}">Home</a>
                     <ul class="nav navbar-nav">
                         <li sec:authorize="isAuthenticated()">
-                            <a href="#" sec:authorize="hasAuthority('USER')" th:href="@{/recipe/new}">Create new Recipe</a>
+                            <a href="#" sec:authorize="hasAuthority('USER')" th:text="#{label.nav.user.createRecipe}" th:href="@{/recipe/new}">Create new Recipe</a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
-                            <a href="#" sec:authorize="hasAuthority('USER')" th:href="@{'/recipes/user/' + ${#authentication.principal.username}}">Your Recipes</a>
+                            <a href="#" sec:authorize="hasAuthority('USER')" th:text="#{label.nav.user.recipes}" th:href="@{'/recipes/user/' + ${#authentication.principal.username}}">Your Recipes</a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
-                            <a href="#" sec:authorize="hasAuthority('USER')" th:href="@{'/users/' + ${#authentication.principal.username} + '/profile'}">Your Profile</a>
+                            <a href="#" sec:authorize="hasAuthority('USER')" th:text="#{label.nav.user.profile}" th:href="@{'/users/' + ${#authentication.principal.username} + '/profile'}">Your Profile</a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
-                            <a href="#" sec:authorize="hasAuthority('ADMIN')" th:href="@{'/admin/list'}">Users</a>
+                            <a href="#" sec:authorize="hasAuthority('ADMIN')" th:text="#{label.nav.admin.users}" th:href="@{'/admin/users'}">Users</a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
-                            <a href="#" sec:authorize="hasAuthority('ADMIN')" th:href="@{'/admin/categories'}">Categories</a>
+                            <a href="#" sec:authorize="hasAuthority('ADMIN')" th:text="#{label.nav.admin.categories}" th:href="@{'/admin/categories'}">Categories</a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
-                            <a href="#" sec:authorize="hasAuthority('ADMIN')" th:href="@{'/admin/uoms'}">UOMs</a>
+                            <a href="#" sec:authorize="hasAuthority('ADMIN')" th:text="#{label.nav.admin.uoms}" th:href="@{'/admin/uoms'}">UOMs</a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
-                            <a href="/logout"><span class="glyphicon glyphicon-log-in"></span>
+                            <a href="/logout" th:text="#{label.nav.logout}"><span class="glyphicon glyphicon-log-in"></span>
                                 Logout</a>
                         </li>
 
                         <li sec:authorize="!isAuthenticated()">
-                            <a href="#" th:href="@{/recipes/find}">Find Recipe</a>
+                            <a href="#" th:href="@{/recipes/find}" th:text="#{label.nav.findRecipe}">Find Recipe</a>
                         </li>
                         <li sec:authorize="!isAuthenticated()">
-                            <a href="/login"><span class="glyphicon glyphicon-user"></span>
+                            <a href="/login" th:text="#{label.nav.login}"><span class="glyphicon glyphicon-user"></span>
                             Login</a>
                         </li>
                         <li sec:authorize="!isAuthenticated()">
-                            <a href="/register"><span class="glyphicon glyphicon-pencil"></span>
-                                Register</a>
+                            <a href="/register" th:text="#{label.nav.register}"><span class="glyphicon glyphicon-pencil"></span>
+                                 Register</a>
                         </li>
-
                     </ul>
                 </div>
             </div>

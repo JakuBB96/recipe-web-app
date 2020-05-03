@@ -14,6 +14,7 @@ public class IngredientCommand {
     @NotBlank
     @Size(min =3, max = 255)
     private String description;
+    @NotNull
     @DecimalMin("0.01")
     @DecimalMax("100.00")
     private BigDecimal amount;

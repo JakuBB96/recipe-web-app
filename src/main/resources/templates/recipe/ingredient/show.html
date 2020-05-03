@@ -14,7 +14,7 @@
             <div class="panel panel-primary">
 
                 <div class="panel-heading">
-                    <h1 class="panel-title">Ingredient</h1>
+                    <h1 class="panel-title" th:text="#{label.ingredient}">Ingredient</h1>
                 </div>
                 <div class="panel-body">
 
@@ -22,8 +22,8 @@
                         <table class="table table-hover ">
                             <thead class="thead-inverse">
                             <tr>
-                                <th>ID</th>
-                                <th>Description</th>
+                                <th th:text="#{table.id}">ID</th>
+                                <th th:text="#{table.ingredient.description}">Description</th>
                             </tr>
                             </thead>
                             <tr th:remove="all">
@@ -40,7 +40,7 @@
                         </table>
                     </div>
                     <a class="btn btn-default" href="#"
-                       th:href="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredients'}" role="button">Back</a>
+                       th:href="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredients'}" th:text="#{button.back}" role="button">Back</a>
                 </div>
             </div>
         </div>

@@ -15,20 +15,20 @@
             <div class="panel panel-primary">
 
                 <div class="panel-heading" sec:authorize="!isAuthenticated()">
-                    <h1 class="panel-title">Recipes</h1>
+                    <h1 class="panel-title" th:text="#{label.recipes}">Recipes</h1>
 
                 </div>
                 <div class="panel-heading" sec:authorize="isAuthenticated()">
-                    <h1 class="panel-title">My Recipes!</h1>
+                    <h1 class="panel-title" th:text="#{label.user.recipes}">My Recipes!</h1>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
                         <table class="table table-hover ">
                             <thead class="thead-inverse">
                             <tr>
-                                <th>ID</th>
-                                <th>Description</th>
-                                <th>View</th>
+                                <th th:text="#{table.id}">ID</th>
+                                <th th:text="#{table.recipe.description}">Description</th>
+                                <th th:text="#{table.view}">View</th>
                                 <th sec:authorize="isAuthenticated()">Update</th>
                                 <th sec:authorize="isAuthenticated()">Delete</th>
                             </tr>
@@ -47,15 +47,15 @@
 
                                 <td th:text="${recipe.id}">334</td>
                                 <td th:text="${recipe.description}">Tasty Goodnees 3</td>
-                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">View</a></td>
-                                <td sec:authorize="isAuthenticated()"><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">Update</a></td>
-                                <td sec:authorize="isAuthenticated()"><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}">Delete</a></td>
+                                <td><a href="#" th:text="#{table.view}" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">View</a></td>
+                                <td sec:authorize="isAuthenticated()"><a th:text="#{table.update}" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">Update</a></td>
+                                <td sec:authorize="isAuthenticated()"><a th:text="#{table.delete}" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}">Delete</a></td>
                             </tr>
                         </table>
                     </div>
                     <div sec:authorize="isAuthenticated()">
                         <a class="btn btn-default" href="#"
-                           th:href="@{/recipes/new}" role="button">Add New recipe</a>
+                           th:href="@{/recipe/new}" role="button" th:text="#{button.addNewRecipe}">Add New recipe</a>
                     </div>
                 </div>
             </div>

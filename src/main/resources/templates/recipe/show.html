@@ -22,7 +22,7 @@
                             <div class="col-md-1" sec:authorize="isAuthenticated()">
                                 <div th:if="${recipe.getUser().getUsername()} == ${#authentication.getPrincipal().getUsername()}">
                                     <a class="btn btn-default" href="#"
-                                       th:href="@{'/recipe/' + ${recipe.id} + '/image'}" role="button">Change Image</a>
+                                       th:href="@{'/recipe/' + ${recipe.id} + '/image'}" role="button" th:text="#{button.changeImg}">Change Image</a>
                                 </div>
                             </div>
                         </div>
@@ -37,15 +37,15 @@
                         <div class="col-md-8 form-group">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label class="col-form-label">Difficulty:</label>
+                                    <label class="col-form-label" th:text="#{recipe.difficulty}">Difficulty:</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p th:text="${recipe.difficulty}">30 min</p>
+                                    <p th:text="${recipe.difficulty}">EASY</p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label class="col-form-label">Servings:</label>
+                                    <label class="col-form-label" th:text="#{recipe.servings}">Servings:</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p th:text="${recipe.servings}">4</p>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label class="col-form-label">Prep Time:</label>
+                                    <label class="col-form-label" th:text="#{recipe.prepTime}">Prep Time:</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p th:text="${recipe.prepTime}">30 min</p>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label class="col-form-label">Cooktime:</label>
+                                    <label class="col-form-label" th:text="#{recipe.cookTime}">Cooktime:</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p th:text="${recipe.cookTime}">10 min</p>
@@ -69,21 +69,16 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label class="col-form-label">Categories:</label>
+                                    <label class="col-form-label" th:text="#{recipe.categories}">Categories:</label>
                                 </div>
                                 <div class="col-md-6">
                                     <span th:each="category : ${recipe.categories}" th:text="'&#8226' + ${category.name} + ' '">cat three</span>
-<!--                                    <ul>-->
-<!--                                        <li th:remove="all">cat one</li>-->
-<!--                                        <li th:remove="all">cat two</li>-->
-<!--                                        <li th:each="category : ${recipe.categories}" th:text="${category.name}">cat three</li>-->
-<!--                                    </ul>-->
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label class="col-form-label">Source:</label>
+                                    <label class="col-form-label" th:text="#{recipe.source}">Source:</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p th:text="${recipe.source}">Example source</p>
@@ -91,7 +86,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label class="col-form-label">URL:</label>
+                                    <label class="col-form-label" th:text="#{recipe.URL}">URL:</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p th:text="${recipe.url}">google.com</p>
@@ -106,10 +101,10 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-11 ">
-                                <h1 class="panel-title">Ingredients</h1>
+                                <h1 class="panel-title" th:text="#{recipe.ingredients.title}">Ingredients</h1>
                             </div>
                             <div class="col-md-1">
-                                <a class="btn btn-default" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" role="button">View</a>
+                                <a class="btn btn-default" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" th:text="#{button.view}" role="button">View</a>
                             </div>
                         </div>
                     </div>
@@ -130,7 +125,7 @@
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h1 class="panel-title" >Directions</h1>
+                        <h1 class="panel-title" th:text="#{recipe.directions}">Directions</h1>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -142,7 +137,7 @@
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h1 class="panel-title" >Notes</h1>
+                        <h1 class="panel-title" th:text="#{recipe.notes.recipeNotes}">Notes</h1>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -152,44 +147,9 @@
                         </div>
                     </div>
                 </div>
-            <!--    <div class="panel panel-primary">
-
-                    <div class="panel-heading">
-                        <h1 class="panel-title" >Comments</h1>
-                    </div>
-
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <ul>
-                                    <li th:each="comment : ${recipe.comments}" th:text="${comment.user.firstName} +' ' + ${comment.user.lastName} + ' commented: ' + ${comment.text}"></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="row" sec:authorize="isAuthenticated()">
-                            <form  th:object="${comment}" th:action="@{'/recipe/' + ${recipe.id} + '/comment'}" method="post">
-                                <input type="hidden" th:field="*{id}"/>
-                                <div class="pannel-group">
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-md-3 form-group">
-                                                    <label>Comment:</label>
-                                                    <input type="text" class="form-control" th:field="*{text}" th:errorclass="has-error"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                     </form>
-                                </div>
-                        </div>
-
-                    </div>-->
-
                 </div>
                 <a class="btn btn-default" href="#"
-                   th:href="@{/recipes}" role="button">List Recipes</a>
+                   th:href="@{/recipes}" role="button" th:text="#{button.listRecipes}">List Recipes</a>
             </div>
         </div>
     </div>

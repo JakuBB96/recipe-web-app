@@ -2,6 +2,7 @@ package com.barancewicz.recipewebapp.controllers;
 
 import com.barancewicz.recipewebapp.commands.UserCommand;
 import com.barancewicz.recipewebapp.domain.User;
+import com.barancewicz.recipewebapp.exceptions.NotMatchingPswdException;
 import com.barancewicz.recipewebapp.exceptions.UserAlreadyExistException;
 import com.barancewicz.recipewebapp.services.RecipeService;
 import com.barancewicz.recipewebapp.services.UserService;
@@ -30,6 +31,7 @@ public class IndexController {
     }
     @GetMapping({"","/","/index","index"})
     public String getIndexPage(Model model){
+
         log.debug("I'm in controller, getting index page");
         model.addAttribute("recipes",recipeService.getRecipesCommands());
         return "index";
@@ -58,6 +60,10 @@ public class IndexController {
         } catch (UserAlreadyExistException uaeEx) {
            model.addAttribute("message", "An account for that username/email already exists.");
            return REGISTRATION_PAGE;
+        }
+        catch (NotMatchingPswdException exception){
+            model.addAttribute("message", "Passwords do not match");
+            return REGISTRATION_PAGE;
         }
        return "redirect:/login";
     }

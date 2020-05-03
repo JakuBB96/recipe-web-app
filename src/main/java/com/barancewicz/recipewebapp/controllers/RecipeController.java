@@ -1,15 +1,10 @@
 package com.barancewicz.recipewebapp.controllers;
 
-import com.barancewicz.recipewebapp.commands.CommentCommand;
 import com.barancewicz.recipewebapp.commands.RecipeCommand;
 import com.barancewicz.recipewebapp.converters.CategoryToCategoryCommand;
 import com.barancewicz.recipewebapp.converters.UserToUserCommand;
-import com.barancewicz.recipewebapp.domain.Category;
-import com.barancewicz.recipewebapp.domain.Recipe;
-import com.barancewicz.recipewebapp.domain.User;
 import com.barancewicz.recipewebapp.exceptions.NotFoundException;
 import com.barancewicz.recipewebapp.services.CategoryService;
-import com.barancewicz.recipewebapp.services.CommentService;
 import com.barancewicz.recipewebapp.services.RecipeService;
 import com.barancewicz.recipewebapp.services.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -117,30 +112,11 @@ public class RecipeController {
         return RECIPE_RECIPEFORM_URL;
     }
 
-//    @PostMapping("recipe/{recipeId}/comment")
-//    public String addComment(@PathVariable String recipeId, @ModelAttribute("comment") CommentCommand command, @AuthenticationPrincipal UserDetails currentUser){
-//        User user = userService.findByUsername(currentUser.getUsername());
-//        command.setUser(userToUserCommand.convert(user));
-//
-////        System.out.println("Command: " + command.getUser().getFirstName());
-////        System.out.println("Command: " + command.getUser().getLastName());
-//        RecipeCommand recipe= recipeService.findCommandById(Long.valueOf(recipeId));
-//        command.setRecipe(recipe);
-//        System.out.println(recipe.getDescription());
-//        CommentCommand savedComment = commentService.saveComment(command);
-//        System.out.println(savedComment.getUser().getFirstName());
-//        System.out.println(savedComment.getUser().getLastName());
-//        System.out.println(savedComment.getRecipe().getDescription());
-//        return "redirect:/recipe/" + recipeId +"/show";
-//    }
-
     @PostMapping("recipe")
     public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command,
                                BindingResult bindingResult,
                                @RequestParam(value = "cats" , required = false) Long[] cats,
                                @AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("i'm here");
-
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());

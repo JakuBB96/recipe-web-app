@@ -50,7 +50,7 @@ public class UserController {
             UserCommand updated = userService.changePswd(userDto);
         }
         catch (NotMatchingPswdException exception){
-            model.addAttribute("message", "Both fields must be exactly the same");
+            model.addAttribute("message", "Passwords do not match");
             return "user/dashboard";
         }
 
