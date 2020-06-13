@@ -2,7 +2,7 @@
 It's a simple web application that I've created while learing Spring MVC.
 
 
-Application allows registered users to create accounts and post their recipes online.
+Application allows registered users to post their recipes online.
 
 Unregistered users can only view recipes and use implemented 'find recipe' funcionality.
 
