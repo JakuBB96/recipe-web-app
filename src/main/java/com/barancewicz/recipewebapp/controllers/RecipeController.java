@@ -59,7 +59,7 @@ public class RecipeController {
         List<RecipeCommand> results = recipeService.findAllByDescriptionLike("%"+recipe.getDescription()+"%");
         if (results.isEmpty()) {
             result.rejectValue("description", "notFound");
-            return "/recipe/find";
+            return "redirect:/recipes/find";
         }
         else if (results.size() == 1) {
             recipe = results.get(0);

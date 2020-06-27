@@ -68,7 +68,9 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
        Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
-       detachedRecipe.setImage(findById(command.getId()).getImage());
+       if (detachedRecipe.getImage()!=null||command.getId()!=null){
+           detachedRecipe.setImage(findById(command.getId()).getImage());
+       }
         System.out.println(detachedRecipe.getUser());
         User toBeUpdated = userService.findByUsername(detachedRecipe.getUser().getUsername());
         toBeUpdated.addRecipe(detachedRecipe);
