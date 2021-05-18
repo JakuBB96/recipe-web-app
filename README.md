@@ -1,5 +1,5 @@
 # Recipes Web Application
-It's a simple web application that I've created while learing Spring MVC.
+It's a simple web application using Spring MVC and Thymeleaf templating engine.
 
 
 Application allows registered users to post their recipes online.
