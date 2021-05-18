@@ -25,10 +25,12 @@ public class Recipe{
     private String url;
     @Lob
     private String directions;
-    //1t1 mapping, by cascasde all recipe is the owner
-    //if we delete recipe, we will also delete notes
-    @OneToOne(cascade = CascadeType.ALL)
-    private Notes notes;
+//    //1t1 mapping, by cascasde all recipe is the owner
+//    //if we delete recipe, we will also delete notes
+//    @OneToOne(cascade = CascadeType.ALL)
+//    private Notes notes;
+    @Lob
+    private String recipeNotes;
     @Lob
     private Byte[] image;
     //mappedBy: property on the child class
@@ -54,12 +56,12 @@ public class Recipe{
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
 //    private List<Comment> comments = new ArrayList<>();
 
-    public void setNotes(Notes notes) {
-        if (notes != null) {
-            this.notes = notes;
-            notes.setRecipe(this);
-        }
-    }
+//    public void setNotes(Notes notes) {
+//        if (notes != null) {
+//            this.recipeNotes = notes.getRecipeNotes();
+//            notes.setRecipe(this);
+//        }
+//    }
 
     public Recipe addIngredient(Ingredient ingredient){
         this.ingredients.add(ingredient);

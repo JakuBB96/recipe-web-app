@@ -8,6 +8,7 @@ import com.barancewicz.recipewebapp.repositories.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +37,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category findById(Long id) {
-        return categoryRepository.findById(id).get();
+        return categoryRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
