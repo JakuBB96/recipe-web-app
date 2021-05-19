@@ -12,21 +12,16 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class UserCommand {
     private Long id;
-    @NotNull
     @NotEmpty
     private String firstName;
-    @NotNull
     @NotEmpty
     private String lastName;
-    @NotNull
     @NotEmpty
     @Size(min = 4, max = 16)
     private String password;
-    @NotNull
     @NotEmpty
     @Size(min = 4, max = 16)
     private String matchingPassword;
-    @NotNull
     @NotEmpty
     @Size(min = 4, max = 16)
     private String username;
